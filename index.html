@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./boostrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Ejercicio 4</title>
+</head>
+<body class="container">
+    <div class="row justify-content-center formulario">
+        <form action="" class="col-6">
+            <div class="mb-3">
+                <input type="text" name="" id="nombre" placeholder="nombre" class="form-control">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="materno" class="form-control" id="ap_materno">
+            </div>
+            <div class="mb-3">
+                <input type="text" placeholder="paterno" class="form-control" id="ap_paterno">
+            </div>
+            <div class="mb-3">
+                <input type="date" class="form-control" id="fecha">
+            </div>
+            
+        </form>
+        <div class="mb-3">
+            <button class="btn btn-primary" onclick="resultado()">Resultado</button>
+        </div>
+    </div>
+    <div class="row justify-content-center resultado">
+        <p id="res" class="col-6"></p>
+    </div>
+    <div>
+        <button class="btn btn-info restablecer" onclick="restablecer()">RESTABLECER</button>
+    </div>
+
+    <script>
+        const FECHAHOY = "2023-09-14"
+        const resultado = ()=> {
+            let nombre = document.getElementById("nombre").value
+            let ap_paterno = document.getElementById("ap_paterno").value
+            let ap_materno = document.getElementById("ap_materno").value
+            let fecha = document.getElementById("fecha").value
+            const resultado = document.querySelector(".resultado")
+            const formulario = document.querySelector(".formulario")
+            console.log(calcularEdad(FECHAHOY, fecha))
+            const EDAD = calcularEdad(FECHAHOY, fecha)
+            console.log(comparaMes(obtenerMes(FECHAHOY), obtenerMes(fecha), EDAD, obtenerDia(fecha)))
+            let res =  `Hola ${nombre} ${ap_materno} ${ap_paterno} `
+            res += comparaMes(obtenerMes(FECHAHOY), obtenerMes(fecha), EDAD, obtenerDia(fecha))
+            document.getElementById("res").innerHTML = res
+            resultado.removeAttribute("id", "ocultar")
+            formulario.setAttribute("id", "ocultar")
+        }
+        const restablecer = () => {
+            const resultado = document.querySelector(".resultado")
+            const formulario = document.querySelector(".formulario")
+            resultado.setAttribute("id", "ocultar")
+            formulario.removeAttribute("id", "ocultar")
+        }
+        const comparaMes = (mesDeHoy, mesDeUser, edad, diaUser)=> {
+            if(mesDeHoy > mesDeUser) {
+                return `tienes ${edad}!`
+            }
+            else if(mesDeHoy === mesDeUser) {
+                return comparaDia(diaUser, edad)
+            }
+            else {
+                return `tendras ${edad}!`
+            }
+        }
+
+        const comparaDia = (diaUser, edad)=> {
+            const DIAHOY = obtenerDia(FECHAHOY)
+            if(DIAHOY > diaUser) {
+                return `tienes ${edad}!!`
+            }
+            else if(diaUser === DIAHOY) {
+                return `Felicidades Hoy cumples ${edad} !!!`
+            }
+            else {
+                return `tendras ${edad}!!`
+            }
+        }
+
+        const calcularEdad = (fechaHoy, fechaUser)=> {
+            return obtenerAño(fechaHoy) - obtenerAño(fechaUser);
+        }
+        const obtenerAño = (fecha)=> {
+            return parseInt(fecha.slice(0,4));
+        }
+        const obtenerMes = (fecha)=> {
+            return parseInt(fecha.slice(5,7));
+        }
+        const obtenerDia = (fecha)=> {
+            return parseInt(fecha.slice(8,10));
+        }
+
+    </script>
+</body>
+</html>
